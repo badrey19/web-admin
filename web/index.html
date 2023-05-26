@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Administrasi Sekolah</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>Administrasi Sekolah</h1>
+
+    <h2>Data Siswa</h2>
+    <a href="add.php">Tambah Siswa</a>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nama</th>
+            <th>Kelas</th>
+            <th>Aksi</th>
+        </tr>
+        <?php
+        // Koneksi ke database
+        $conn = mysqli_connect('localhost', 'username', 'password', 'nama_database');
+
+        // Periksa koneksi
+        if (!$conn) {
+            die("Koneksi gagal: " . mysqli_connect_error());
+        }
+
+        // Query untuk mengambil data siswa
+        $sql = "SELECT * FROM siswa";
+        $result = mysqli_query($conn, $sql);
+
+        // Tampilkan data siswa ke dalam tabel
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr>";
+            echo "<td>" . $row['id'] . "</td>";
+            echo "<td>" . $row['nama'] . "</td>";
+            echo "<td>" . $row['kelas'] . "</td>";
+            echo "<td><a href='edit.php?id=" . $row['id'] . "'>Edit</a> | <a href='delete.php?id=" . $row['id'] . "'>Hapus</a></td>";
+            echo "</tr>";
+        }
+
+        // Tutup koneksi
+        mysqli_close($conn);
+        ?>
+    </table>
+</body>
+</html>
